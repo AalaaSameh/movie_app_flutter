@@ -15,6 +15,7 @@ class MovieDetailsScreen extends StatefulWidget {
 class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
   late Future<Movie> movieDetails;
   late Future<List<Movie>> suggestions;
+  bool isFavorite = false;
 
   @override
   void initState() {
@@ -65,8 +66,51 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       child: CircleAvatar(
                         backgroundColor: Colors.black54,
                         child: IconButton(
-                          icon: const Icon(Icons.arrow_back, color: Colors.white),
-                          onPressed: () => Navigator.pop(context),
+                          icon: Icon(
+                            isFavorite ? Icons.favorite : Icons.favorite_border,
+                            color: Colors.red,
+                          ),
+                          onPressed: () async {
+                            setState(() {
+                              isFavorite = !isFavorite;
+                            });
+
+                            try {
+                              await MovieService.addMovieToFavorites(movie);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Added to favorites ✅")),
+                              );
+                            } catch (e) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text("Error: $e")),
+                              );
+                            }
+                          },
+                        ),
+
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 16,
+                      left: 16,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 8, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: Colors.black.withValues(alpha: 0.6),
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(Icons.star,
+                                color: Colors.amber, size: 20),
+                            const SizedBox(width: 6),
+                            Text(
+                              "${movie.rating} / 10",
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 16),
+                            ),
+                          ],
                         ),
                       ),
                     ),
@@ -77,35 +121,19 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        movie.title,
-                        style: const TextStyle(
-                          fontSize: 26,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Row(
-                        children: [
-                          const Icon(Icons.star, color: Colors.amber, size: 22),
-                          const SizedBox(width: 6),
-                          Text(
-                            "${movie.rating} / 10",
-                            style: const TextStyle(
-                                fontSize: 16, color: Colors.amber),
-                          ),
-                        ],
-                      ),
-                    ],
+                  child: Text(
+                    movie.title,
+                    style: const TextStyle(
+                      fontSize: 26,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
 
                 const SizedBox(height: 20),
 
+                // Summary
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
@@ -178,7 +206,8 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                     builder: (context, snapshot) {
                       if (!snapshot.hasData) {
                         return const Center(
-                            child: CircularProgressIndicator(color: Colors.amber));
+                            child:
+                            CircularProgressIndicator(color: Colors.amber));
                       }
                       final suggestedMovies = snapshot.data!;
                       return ListView.builder(

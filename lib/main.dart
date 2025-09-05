@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'screens/home_screen.dart';
 import 'screens/search_screen.dart';
 import 'screens/browse_screen.dart';
+import 'screens/profile_screen.dart';
+
 
 void main() {
   runApp(const MyApp());
@@ -41,10 +43,7 @@ class _MainPageState extends State<MainPage> {
     const HomeScreen(),
     const SearchScreen(),
     const BrowseScreen(),
-    const Center(
-      child: Text("Profile Page",
-          style: TextStyle(color: Colors.white, fontSize: 22)),
-    ),
+    const ProfileScreen(),
   ];
 
   void _onItemTapped(int index) {
