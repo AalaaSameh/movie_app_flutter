@@ -57,7 +57,6 @@ class _BrowseScreenState extends State<BrowseScreen> {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // شريط الأنواع
               SizedBox(
                 height: 50,
                 child: ListView.builder(
@@ -94,7 +93,6 @@ class _BrowseScreenState extends State<BrowseScreen> {
 
               const SizedBox(height: 10),
 
-              // شبكة الأفلام
               Expanded(
                 child: GridView.builder(
                   padding: const EdgeInsets.all(8),

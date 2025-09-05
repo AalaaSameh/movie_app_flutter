@@ -51,7 +51,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // صورة الفيلم
                 Stack(
                   children: [
                     Image.network(
@@ -60,7 +59,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                       height: 350,
                       fit: BoxFit.cover,
                     ),
-                    // زرار Back
                     Positioned(
                       top: 40,
                       left: 16,
@@ -77,7 +75,6 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
 
                 const SizedBox(height: 16),
 
-                // العنوان + التقييم
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
@@ -109,12 +106,24 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
 
                 const SizedBox(height: 20),
 
-                // Summary
-                if (movie.summary != null && movie.summary!.isNotEmpty)
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: Text(
+                    "Summary",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+
+                if (movie.description.isNotEmpty)
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Text(
-                      movie.summary!,
+                      movie.description,
                       style: const TextStyle(
                         fontSize: 16,
                         height: 1.5,
@@ -131,6 +140,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Wrap(
                       spacing: 10,
+                      runSpacing: 6,
                       children: movie.genres
                           .map(
                             (g) => Chip(
@@ -151,7 +161,7 @@ class _MovieDetailsScreenState extends State<MovieDetailsScreen> {
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 16),
                   child: Text(
-                    "More Like This",
+                    "Similar",
                     style: TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
