@@ -1,0 +1,13 @@
+flutter_native_splash:
+
+  color: "#121312"
+  background_image: "assets/images/Splash_Screen.png"
+  image: assets/images/routegold.png
+  branding: assets/images/logo.png
+
+
+  android_12:
+    image: assets/images/routegold.png
+    color: "#121312"
+    icon_background_color: "#121312"
+    branding: assets/images/logo.png
